@@ -1,15 +1,24 @@
 import {
-    ChevronLeft,
-    ChevronRight,
+    Grid3X3,
+    Zap,
     Star,
-    Heart,
-    ShoppingCart,
-    Play,
     Sparkles,
+    Heart,
     Gift,
-    Users,
-    Zap
-} from 'lucide-react';
+    Mail,
+    Phone,
+    MapPin,
+    Facebook,
+    Twitter,
+    Instagram,
+    Youtube,
+    Send,
+    ArrowUp,
+    Shield,
+    Truck,
+    RefreshCw,
+    CreditCard,
+} from "lucide-react";
 
 export const slides = [
     {
@@ -24,7 +33,7 @@ export const slides = [
         icon: Star,
         features: ["Ages 3-12", "STEM Focused", "Award Winning"],
         discount: "25% OFF",
-        image: "/image.png" // Using emoji as placeholder for toy image
+        image: "/image.png"
     },
     {
         id: 2,
@@ -70,3 +79,235 @@ export const slides = [
     }
 ];
 
+
+export const productsData = [
+    {
+        id: 1,
+        name: "Educational STEM Building Blocks",
+        category: "educational",
+        price: 29.99,
+        originalPrice: 3999.99,
+        discount: 25,
+        rating: 4.8,
+        reviews: 124,
+        image: "image.png",
+        description:
+            "Interactive building blocks that teach engineering principles",
+        features: ["Ages 6-12", "STEM Learning", "100 Pieces"],
+        inStock: true,
+        isNew: true,
+        isBestseller: false,
+    },
+    {
+        id: 2,
+        name: "Superhero Action Figure Set",
+        category: "action",
+        price: 24500,
+        originalPrice: 34500.99,
+        discount: 30,
+        rating: 4.6,
+        reviews: 89,
+        image: "image.png",
+        description: "Premium superhero figures with movable joints",
+        features: ["Ages 4+", "Collectible", "Poseable"],
+        inStock: true,
+        isNew: false,
+        isBestseller: true,
+    },
+    {
+        id: 3,
+        name: "Creative Art & Craft Kit",
+        category: "arts",
+        price: 19000,
+        originalPrice: 24000,
+        discount: 20,
+        rating: 4.7,
+        reviews: 156,
+        image: "image.png",
+        description: "Complete art set with paints, brushes, and canvas",
+        features: ["Ages 5+", "Non-toxic", "Complete Set"],
+        inStock: true,
+        isNew: false,
+        isBestseller: false,
+    },
+    {
+        id: 4,
+        name: "Remote Control Racing Car",
+        category: "vehicles",
+        price: 49000,
+        originalPrice: 60000,
+        discount: 29,
+        rating: 4.9,
+        reviews: 203,
+        image: "image.png",
+        description: "High-speed RC car with LED lights and sound effects",
+        features: ["Ages 8+", "Remote Control", "LED Lights"],
+        inStock: false,
+        isNew: true,
+        isBestseller: true,
+    },
+    {
+        id: 5,
+        name: "Princess Castle Dollhouse",
+        category: "dolls",
+        price: 3500,
+        originalPrice: 5555,
+        discount: 20,
+        rating: 4.5,
+        reviews: 67,
+        image: "image.png",
+        description: "Beautiful 3-story dollhouse with furniture included",
+        features: ["Ages 3+", "3 Stories", "Furniture Included"],
+        inStock: true,
+        isNew: false,
+        isBestseller: false,
+    },
+    {
+        id: 6,
+        name: "Musical Learning Piano",
+        category: "educational",
+        price: 34500.99,
+        originalPrice: 44000.99,
+        discount: 22,
+        rating: 4.4,
+        reviews: 91,
+        image: "image.png",
+        description: "Interactive piano with learning modes and songs",
+        features: ["Ages 3+", "Educational", "25 Songs"],
+        inStock: true,
+        isNew: false,
+        isBestseller: false,
+    },
+    {
+        id: 7,
+        name: "Dinosaur Discovery Playset",
+        category: "educational",
+        price: 39000.99,
+        originalPrice: 49000.99,
+        discount: 20,
+        rating: 4.6,
+        reviews: 134,
+        image: "image.png",
+        description: "Realistic dinosaur figures with educational facts",
+        features: ["Ages 4+", "Educational", "12 Dinosaurs"],
+        inStock: true,
+        isNew: true,
+        isBestseller: false,
+    },
+    {
+        id: 8,
+        name: "Magic Science Experiment Kit",
+        category: "educational",
+        price: 44000.99,
+        originalPrice: 59000.99,
+        discount: 25,
+        rating: 4.8,
+        reviews: 178,
+        image: "image.png",
+        description: "Safe science experiments that amaze and educate",
+        features: ["Ages 8+", "20 Experiments", "Safe Materials"],
+        inStock: true,
+        isNew: false,
+        isBestseller: true,
+    },
+];
+
+export const categories = [
+    { value: "all", label: "All Categories", icon: Grid3X3 },
+    { value: "educational", label: "Educational", icon: Sparkles },
+    { value: "action", label: "Action Figures", icon: Zap },
+    { value: "arts", label: "Arts & Crafts", icon: Heart },
+    { value: "vehicles", label: "Vehicles", icon: Star },
+    { value: "dolls", label: "Dolls & Playsets", icon: Gift },
+];
+
+export const priceRanges = [
+    { value: "all", label: "All Prices" },
+    { value: "0-25", label: "Under ₹25" },
+    { value: "25-50", label: "₹25 - ₹50" },
+    { value: "50-75", label: "₹50 - ₹75" },
+    { value: "75+", label: "₹75+" },
+];
+
+export const sortOptions = [
+    { value: "name", label: "Name A-Z" },
+    { value: "price-low", label: "Price: Low to High" },
+    { value: "price-high", label: "Price: High to Low" },
+    { value: "rating", label: "Highest Rated" },
+    { value: "newest", label: "Newest First" },
+];
+
+
+export const footerSections = [
+    {
+        title: "Quick Links",
+        links: [
+            { name: "Home", href: "/" },
+            { name: "Categories", href: "/categories" },
+            { name: "New Arrivals", href: "/new-arrivals" },
+            { name: "Sale", href: "/sale" },
+            { name: "About Us", href: "/about" },
+            { name: "Contact", href: "/contact" },
+        ],
+    },
+    {
+        title: "Categories",
+        links: [
+            { name: "Educational Toys", href: "/category/educational" },
+            { name: "Action Figures", href: "/category/action-figures" },
+            { name: "Dolls & Plush", href: "/category/dolls-plush" },
+            { name: "Building Sets", href: "/category/building-sets" },
+            { name: "Outdoor Toys", href: "/category/outdoor" },
+            { name: "Board Games", href: "/category/board-games" },
+        ],
+    },
+    {
+        title: "Customer Care",
+        links: [
+            { name: "Help Center", href: "/help" },
+            { name: "Shipping Info", href: "/shipping" },
+            { name: "Returns", href: "/returns" },
+            { name: "Size Guide", href: "/size-guide" },
+            { name: "Track Order", href: "/track" },
+            { name: "FAQs", href: "/faq" },
+        ],
+    },
+    {
+        title: "Company",
+        links: [
+            { name: "Our Story", href: "/story" },
+            { name: "Careers", href: "/careers" },
+            { name: "Press", href: "/press" },
+            { name: "Sustainability", href: "/sustainability" },
+            { name: "Privacy Policy", href: "/privacy" },
+            { name: "Terms of Service", href: "/terms" },
+        ],
+    },
+];
+
+export const socialLinks = [
+    {
+        icon: Facebook,
+        href: "#",
+        color: "hover:text-blue-600",
+        bg: "hover:bg-blue-100",
+    },
+    {
+        icon: Instagram,
+        href: "#",
+        color: "hover:text-pink-600",
+        bg: "hover:bg-pink-100",
+    },
+    {
+        icon: Twitter,
+        href: "#",
+        color: "hover:text-blue-400",
+        bg: "hover:bg-blue-100",
+    },
+    {
+        icon: Youtube,
+        href: "#",
+        color: "hover:text-red-600",
+        bg: "hover:bg-red-100",
+    },
+];
