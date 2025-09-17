@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
-const MONGODB_URI = process.env.MONGODB_URI
-
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/toysquad"
+console.log(MONGODB_URI, 'this is mongosh url')
 if (!MONGODB_URI) {
     throw new Error("please add the mongodb URI to .env.local")
 }
@@ -17,6 +17,7 @@ export async function connectDB(){
             .connect(MONGODB_URI,{
                 serverSelectionTimeoutMS: 5000,
                 socketTimeoutMS: 45000,
+                
             })
             .then((mongoose)=> {
                 console.log("Mongo db is connected Now")

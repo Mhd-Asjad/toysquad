@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { categories, productsData, sortOptions, priceRanges } from "../data";
+import ProductCard from "./ProductCard";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -29,7 +30,6 @@ const ProductsPage = () => {
   const [sortBy, setSortBy] = useState("name");
   const [viewMode, setViewMode] = useState("grid");
   const [showFilters, setShowFilters] = useState(false);
-  const [favorites, setFavorites] = useState([]);
 
   // Initialize products
   useEffect(() => {
@@ -87,19 +87,6 @@ const ProductsPage = () => {
     setFilteredProducts(filtered);
   }, [products, searchTerm, selectedCategory, selectedPriceRange, sortBy]);
 
-  const toggleFavorite = (productId) => {
-    setFavorites((prev) =>
-      prev.includes(productId)
-        ? prev.filter((id) => id !== productId)
-        : [...prev, productId]
-    );
-  };
-
-  const addToCart = (product) => {
-    // Cart functionality would be implemented here
-    console.log("Added to cart:", product);
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 pt-20 lg:pt-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -125,24 +112,23 @@ const ProductsPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 mb-8 shadow-lg"
+          className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 mb-8 shadow-lg "
         >
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 items-start sm:items-center">
             {/* Search Bar */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <div className="flex-1 min-w-[200px]">
+              <Search className="absolute left-8 top-12 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search toys..."
+                placeholder="Search RC cars..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 rounded-xl border border-orange-200/50 bg-white/80 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition-all text-black placeholder:text-black/50"
               />
             </div>
 
-            {/* Filter and Sort Controls */}
-            <div className="flex items-center gap-4">
-              {/* Filter Toggle */}
+            {/* Filter + Sort + View */}
+            <div className="flex flex-wrap gap-2 sm:gap-4 items-center w-full sm:w-auto">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -157,7 +143,6 @@ const ProductsPage = () => {
                 <span>Filters</span>
               </motion.button>
 
-              {/* Sort Dropdown */}
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
@@ -170,7 +155,6 @@ const ProductsPage = () => {
                 ))}
               </select>
 
-              {/* View Mode Toggle */}
               <div className="flex bg-white/80 rounded-xl p-1 border border-orange-200/50">
                 <motion.button
                   whileTap={{ scale: 0.95 }}
@@ -282,212 +266,7 @@ const ProductsPage = () => {
         </motion.div>
 
         {/* Product Grid/List */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className={
-            viewMode === "grid"
-              ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-              : "space-y-4"
-          }
-        >
-          <AnimatePresence>
-            {filteredProducts.map((product, index) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ delay: index * 0.1 }}
-                className={`bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${
-                  viewMode === "list" ? "flex items-center p-4 gap-6" : "p-6"
-                }`}
-              >
-                {/* Product Image */}
-                <div
-                  className={`relative ${
-                    viewMode === "list"
-                      ? "w-32 h-32 flex-shrink-0"
-                      : "aspect-square mb-4"
-                  } bg-gradient-to-br from-orange-100 to-pink-100 rounded-xl overflow-hidden`}
-                >
-                  <Image
-                    src={`/${product.image}`}
-                    alt={product.name}
-                    fill
-                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                  />
-
-                  {/* Badges */}
-                  <div className="absolute top-2 left-2 flex flex-col gap-1">
-                    {product.isNew && (
-                      <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full font-medium">
-                        NEW
-                      </span>
-                    )}
-                    {product.isBestseller && (
-                      <span className="bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-medium">
-                        BESTSELLER
-                      </span>
-                    )}
-                    {product.discount > 0 && (
-                      <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium">
-                        -{product.discount}%
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Favorite Button */}
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => toggleFavorite(product.id)}
-                    className="absolute top-2 right-2 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-white transition-all"
-                  >
-                    <Heart
-                      className={`w-4 h-4 ${
-                        favorites.includes(product.id)
-                          ? "text-red-500 fill-red-500"
-                          : "text-gray-600"
-                      }`}
-                    />
-                  </motion.button>
-
-                  {/* Quick Actions */}
-                  <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-md hover:bg-white transition-all"
-                    >
-                      <Eye className="w-4 h-4 text-gray-600" />
-                    </motion.button>
-                  </div>
-                </div>
-
-                {/* Product Info */}
-                <div className={viewMode === "list" ? "flex-1" : ""}>
-                  {/* Rating */}
-                  <div className="flex items-center gap-1 mb-2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-4 h-4 ${
-                          i < Math.floor(product.rating)
-                            ? "text-yellow-400 fill-yellow-400"
-                            : "text-gray-300"
-                        }`}
-                      />
-                    ))}
-                    <span className="text-sm text-gray-600 ml-1">
-                      {product.rating} ({product.reviews})
-                    </span>
-                  </div>
-
-                  {/* Product Name */}
-                  <h3
-                    className={`font-bold text-gray-800 mb-2 ${
-                      viewMode === "list" ? "text-lg" : "text-base"
-                    }`}
-                  >
-                    {product.name}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                    {product.description}
-                  </p>
-
-                  {/* Features */}
-                  <div className="flex flex-wrap gap-1 mb-4">
-                    {product.features.map((feature, i) => (
-                      <span
-                        key={i}
-                        className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full"
-                      >
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Price and Actions */}
-                  <div
-                    className={`flex items-center ${
-                      viewMode === "list"
-                        ? "justify-between"
-                        : "justify-between"
-                    }`}
-                  >
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-lg font-bold text-orange-600">
-                          ₹{product.price}
-                        </span>
-                        {product.originalPrice > product.price && (
-                          <span className="text-sm text-gray-500 line-through">
-                            ₹{product.originalPrice}
-                          </span>
-                        )}
-                      </div>
-                      <p
-                        className={`text-xs ${
-                          product.inStock ? "text-green-600" : "text-red-600"
-                        }`}
-                      >
-                        {product.inStock ? "In Stock" : "Out of Stock"}
-                      </p>
-                    </div>
-
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => addToCart(product)}
-                      disabled={!product.inStock}
-                      className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all ${
-                        product.inStock
-                          ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:shadow-lg"
-                          : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                      }`}
-                    >
-                      <ShoppingCart className="w-4 h-4" />
-                      {viewMode === "list" && <span>Add to Cart</span>}
-                    </motion.button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* No Results */}
-        {filteredProducts.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center py-16"
-          >
-            <div className="text-6xl mb-4">🧸</div>
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">
-              No toys found
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Try adjusting your filters or search terms
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => {
-                setSearchTerm("");
-                setSelectedCategory("all");
-                setSelectedPriceRange("all");
-              }}
-              className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3 rounded-xl font-medium"
-            >
-              Clear All Filters
-            </motion.button>
-          </motion.div>
-        )}
+        <ProductCard filteredProducts={filteredProducts} viewMode={viewMode} />
       </div>
     </div>
   );
