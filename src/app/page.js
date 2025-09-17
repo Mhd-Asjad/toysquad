@@ -1,12 +1,12 @@
 import React from 'react'
 import HeroSection from './components/HeroSection'
 import ProductsPage from './components/ProductsPage'
-
+import ProductSlider from './components/ProductSlider'
 const Page = () => {
   return (
     <div>
       <div className=''>
-        <HeroSection />
+        <ProductSlider />
       </div>
       <div>
         <ProductsPage />
