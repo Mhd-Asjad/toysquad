@@ -1,32 +1,35 @@
+import React from 'react'
 import { NextResponse } from "next/server";
 import Product from "@/app/models/Product";
 import { connectDB } from "@/app/config/mongodb";
 
-export async function GET(req ,{ params }) { 
+export async function GET(req, { params }) {
     await connectDB()
-    try{
-        console.log(params)
-        const product = await Product.findById(params.id);
-        if (product){
+    try {
 
-            return NextResponse.json(product,{status:200});
-        }return NextResponse.json({message:'product not found'})
-        
-    }catch(err){
-        console.log(err,'eroor while Get particular prod')
+        const product = await Product.findById(params.id);
+        if (product) {
+
+            return NextResponse.json(product, { status: 200 });
+        } return NextResponse.json({ message: 'product not found' })
+
+    } catch (err) {
+        console.log(err, 'error while Get particular prod')
+            return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+
     }
 }
 
-export async function PUT(req,{params}){
+export async function PUT(req, { params }) {
     await connectDB()
     const body = await req.json();
-    const product = await Product.findByIdAndUpdate(params.id, body, {new:true})
-    return NextResponse.json(product,{status:200});
+    const product = await Product.findByIdAndUpdate(params.id, body, { new: true })
+    return NextResponse.json(product, { status: 200 });
 
 }
 
-export async function DELETE(req,{params}){
+export async function DELETE(req, { params }) {
     await connectDB()
     await Product.findByIdAndDelete(params.id)
-    return NextResponse.json({ message: "Product deleted" },{status:200});
+    return NextResponse.json({ message: "Product deleted" }, { status: 200 });
 }
