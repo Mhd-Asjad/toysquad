@@ -79,8 +79,8 @@ export const slides = [
     }
 ];
 
-
 export const productsData = [
+
     {
         id: 1,
         name: "Educational STEM Building Blocks",
