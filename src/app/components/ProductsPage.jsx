@@ -11,11 +11,6 @@ import {
   Heart,
   ShoppingCart,
   Eye,
-  ArrowUpDown,
-  X,
-  Sparkles,
-  Gift,
-  Zap,
 } from "lucide-react";
 import Image from "next/image";
 import { categories, productsData, sortOptions, priceRanges } from "../data";
@@ -41,7 +36,6 @@ const ProductsPage = () => {
   useEffect(() => {
     let filtered = [...products];
 
-    // Search filter
     if (searchTerm) {
       filtered = filtered.filter(
         (product) =>
@@ -50,14 +44,12 @@ const ProductsPage = () => {
       );
     }
 
-    // Category filter
     if (selectedCategory !== "all") {
       filtered = filtered.filter(
         (product) => product.category === selectedCategory
       );
     }
 
-    // Price filter
     if (selectedPriceRange !== "all") {
       const [min, max] = selectedPriceRange.split("-").map(Number);
       filtered = filtered.filter((product) => {
@@ -66,7 +58,6 @@ const ProductsPage = () => {
       });
     }
 
-    // Sort products
     filtered.sort((a, b) => {
       switch (sortBy) {
         case "name":
@@ -87,8 +78,21 @@ const ProductsPage = () => {
     setFilteredProducts(filtered);
   }, [products, searchTerm, selectedCategory, selectedPriceRange, sortBy]);
 
+
+  const toggleFavorite = (productId) => {
+    setFavorites((prev) =>
+      prev.includes(productId)
+        ? prev.filter((id) => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
+  const addToCart = (product) => {
+    console.log("Added to cart:", product);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 pt-20 lg:pt-28">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 pt-20 lg:pt-28 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Header */}
         <motion.div
@@ -96,18 +100,16 @@ const ProductsPage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
-              Our Amazing Toys
-            </span>
+          <h1 className="text-4xl lg:text-5xl pb-4 font-bold mb-4 bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            Our Amazing Toys
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Discover our carefully curated collection of educational, fun, and
             engaging toys for children of all ages
           </p>
         </motion.div>
 
-        {/* Filters and Search Bar */}
+        {/* Filters and Search */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -123,7 +125,7 @@ const ProductsPage = () => {
                 placeholder="Search RC cars..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-orange-200/50 bg-white/80 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition-all text-black placeholder:text-black/50"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border border-blue-200/50 bg-white/80 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all text-black placeholder:text-black/50"
               />
             </div>
 
@@ -133,11 +135,10 @@ const ProductsPage = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setShowFilters(!showFilters)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all ${
-                  showFilters
-                    ? "bg-orange-500 text-white shadow-lg"
-                    : "bg-white/80 text-gray-700 hover:bg-white"
-                }`}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all ${showFilters
+                  ? "bg-blue-500 text-white shadow-lg"
+                  : "bg-white/80 text-gray-700 hover:bg-white"
+                  }`}
               >
                 <Filter className="w-5 h-5" />
                 <span>Filters</span>
@@ -146,7 +147,7 @@ const ProductsPage = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2 rounded-xl border border-orange-200/50 bg-white/80 text-black focus:outline-none focus:ring-2 focus:ring-orange-300 font-medium"
+                className="px-4 py-2 rounded-xl border border-blue-200/50 bg-white/80 text-black focus:outline-none focus:ring-2 focus:ring-blue-300 font-medium"
               >
                 {sortOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -155,32 +156,31 @@ const ProductsPage = () => {
                 ))}
               </select>
 
-              <div className="flex bg-white/80 rounded-xl p-1 border border-orange-200/50">
+              <div className="flex bg-white/80 rounded-xl p-1 border border-blue-200/50">
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setViewMode("grid")}
-                  className={`p-2 rounded-lg transition-all ${
-                    viewMode === "grid"
-                      ? "bg-orange-500 text-white"
-                      : "text-gray-600"
-                  }`}
+                  className={`p-2 rounded-lg transition-all ${viewMode === "grid"
+                    ? "bg-blue-500 text-white"
+                    : "text-gray-600"
+                    }`}
                 >
                   <Grid3X3 className="w-5 h-5" />
                 </motion.button>
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setViewMode("list")}
-                  className={`p-2 rounded-lg transition-all ${
-                    viewMode === "list"
-                      ? "bg-orange-500 text-white"
-                      : "text-gray-600"
-                  }`}
+                  className={`p-2 rounded-lg transition-all ${viewMode === "list"
+                    ? "bg-blue-500 text-white"
+                    : "text-gray-600"
+                    }`}
                 >
                   <List className="w-5 h-5" />
                 </motion.button>
               </div>
             </div>
           </div>
+
 
           {/* Expandable Filters */}
           <AnimatePresence>
@@ -189,7 +189,7 @@ const ProductsPage = () => {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="mt-6 pt-6 border-t border-orange-200/50"
+                className="mt-6 pt-6 border-t border-blue-200/50"
               >
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Category Filter */}
@@ -206,11 +206,10 @@ const ProductsPage = () => {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={() => setSelectedCategory(category.value)}
-                            className={`flex items-center space-x-2 px-3 py-2 rounded-full text-sm font-medium transition-all ${
-                              selectedCategory === category.value
-                                ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-lg"
-                                : "bg-white/60 text-gray-700 hover:bg-white"
-                            }`}
+                            className={`flex items-center space-x-2 px-3 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === category.value
+                              ? "bg-gradient-to-r from-blue-500 to-pink-500 text-white shadow-lg"
+                              : "bg-white/60 text-gray-700 hover:bg-white"
+                              }`}
                           >
                             <IconComponent className="w-4 h-4" />
                             <span>{category.label}</span>
@@ -232,11 +231,10 @@ const ProductsPage = () => {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => setSelectedPriceRange(range.value)}
-                          className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
-                            selectedPriceRange === range.value
-                              ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-lg"
-                              : "bg-white/60 text-gray-700 hover:bg-white"
-                          }`}
+                          className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${selectedPriceRange === range.value
+                            ? "bg-gradient-to-r from-blue-500 to-pink-500 text-white shadow-lg"
+                            : "bg-white/60 text-gray-700 hover:bg-white"
+                            }`}
                         >
                           {range.label}
                         </motion.button>
@@ -254,11 +252,11 @@ const ProductsPage = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="mb-6"
+          className="mb-6 text-gray-300"
         >
-          <p className="text-gray-600">
+          <p>
             Showing{" "}
-            <span className="font-semibold text-orange-600">
+            <span className="font-semibold text-cyan-400">
               {filteredProducts.length}
             </span>{" "}
             of <span className="font-semibold">{products.length}</span> products
@@ -267,6 +265,7 @@ const ProductsPage = () => {
 
         {/* Product Grid/List */}
         <ProductCard filteredProducts={filteredProducts} viewMode={viewMode} />
+
       </div>
     </div>
   );
