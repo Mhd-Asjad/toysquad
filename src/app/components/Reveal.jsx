@@ -27,11 +27,13 @@ export default function Reveal({
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.25 }}
+      viewport={{ amount: 0.25 }}
       variants={variants}
       className={className}
     >
+
       {children}
+
     </motion.div>
   );
 }

@@ -250,7 +250,7 @@ export const footerSections = [
             { name: "Contact", href: "/contact" },
         ],
     },
-    {
+    {   
         title: "Categories",
         links: [
             { name: "Educational Toys", href: "/category/educational" },
