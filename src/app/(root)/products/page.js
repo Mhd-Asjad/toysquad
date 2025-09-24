@@ -13,8 +13,8 @@ import {
     X,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import ProductCard from "../components/ProductCard";
-import { categories, productsData, sortOptions, priceRanges } from "@/app/data/index";
+import ProductCard from "../../../components/ProductCard";
+import { categories, productsData, sortOptions, priceRanges } from "@/data/index";
 import { PacmanLoader } from "react-spinners";
 
 const ProductsPage = () => {

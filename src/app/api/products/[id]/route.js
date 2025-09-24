@@ -1,7 +1,7 @@
 import React from 'react'
 import { NextResponse } from "next/server";
-import Product from "@/app/models/Product";
-import { connectDB } from "@/app/config/mongodb";
+import Product from "@/models/Product";
+import { connectDB } from "@/config/mongodb";
 
 export async function GET(req, { params }) {
     await connectDB()
