@@ -7,14 +7,11 @@ import {
   Filter,
   Grid3X3,
   List,
-  Star,
-  Heart,
-  ShoppingCart,
-  Eye,
 } from "lucide-react";
-import Image from "next/image";
-import { categories, productsData, sortOptions, priceRanges } from "../data";
+import { useRouter } from "next/navigation"; // ✅ add router
 import ProductCard from "./ProductCard";
+import { categories, sortOptions, priceRanges } from "../data";
+import { PacmanLoader } from "react-spinners";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -24,15 +21,42 @@ const ProductsPage = () => {
   const [selectedPriceRange, setSelectedPriceRange] = useState("all");
   const [sortBy, setSortBy] = useState("name");
   const [viewMode, setViewMode] = useState("grid");
+  const [isLoading, setIsLoading] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
 
-  // Initialize products
+  const router = useRouter();
+
+  // ✅ Fetch only first 12 products
   useEffect(() => {
-    setProducts(productsData);
-    setFilteredProducts(productsData);
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch("/api/products");
+        if (!res.ok) {
+          throw new Error(`Failed to fetch products : ${res.status}`);
+        }
+        const productData = await res.json();
+
+        if (!Array.isArray(productData)) {
+          throw new Error("Invalid data format received from API");
+        }
+
+        const limitedProducts = productData.slice(0, 12);
+
+        setProducts(limitedProducts);
+        setFilteredProducts(limitedProducts);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      } finally {
+        setIsLoading(false);
+      }
+
+    }
+
+    fetchProducts();
   }, []);
 
-  // Filter and sort products
+  // ✅ Apply filters + sorting
   useEffect(() => {
     let filtered = [...products];
 
@@ -76,19 +100,18 @@ const ProductsPage = () => {
     });
 
     setFilteredProducts(filtered);
-  }, [products, searchTerm, selectedCategory, selectedPriceRange, sortBy]);
+  }, [products, searchTerm, selectedCategory, selectedPriceRange, sortBy]
 
+  );
 
-  const toggleFavorite = (productId) => {
-    setFavorites((prev) =>
-      prev.includes(productId)
-        ? prev.filter((id) => id !== productId)
-        : [...prev, productId]
-    );
+  const clearAllFilters = () => {
+    setSearchTerm("");
+    setSelectedCategory("all");
+    setSelectedPriceRange("all");
   };
 
-  const addToCart = (product) => {
-    console.log("Added to cart:", product);
+  const handleProductClick = (productId) => {
+    router.push(`/products/${productId}`);
   };
 
   return (
@@ -264,8 +287,34 @@ const ProductsPage = () => {
         </motion.div>
 
         {/* Product Grid/List */}
-        <ProductCard filteredProducts={filteredProducts} viewMode={viewMode} />
+        {isLoading ? (
+          <div className="flex justify-center items-center py-20">
+            <PacmanLoader color="#0b74ff" size={50} />
+            {/* blue-600 color */}
+          </div>
+        ) : (
+          <ProductCard
+            filteredProducts={filteredProducts}
+            viewMode={viewMode}
+            onProductClick={handleProductClick}
+            clearAllFilters={clearAllFilters}
+            searchTerm={searchTerm}
+            selectedCategory={selectedCategory}
+            selectedPriceRange={selectedPriceRange}
+          />
+        )}
 
+
+        <div className="flex justify-center mt-10">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => router.push("/products")}
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-pink-500 text-white font-semibold shadow-lg"
+          >
+            View More
+          </motion.button>
+        </div>
       </div>
     </div>
   );
