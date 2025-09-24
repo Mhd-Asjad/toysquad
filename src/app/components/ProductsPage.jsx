@@ -291,7 +291,7 @@ const ProductsPage = () => {
           <div className="flex justify-center items-center py-20">
             <PacmanLoader color="#0b74ff" size={50} />
             {/* blue-600 color */}
-          </div>
+          </div>  
         ) : (
           <ProductCard
             filteredProducts={filteredProducts}
