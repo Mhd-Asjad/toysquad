@@ -14,6 +14,7 @@ const ProductCard = ({
   selectedCategory,
   selectedPriceRange,
 }) => {
+  
   return (
     <div>
       {/* Grid / List Wrapper */}
