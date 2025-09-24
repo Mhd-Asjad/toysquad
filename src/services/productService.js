@@ -1,12 +1,6 @@
-import Category from "../interfces/categoryInterface";
-import { Product } from "../interfces/productInterface";
-
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-export const fetchData = async (
-    setProducts: (products: Product[]) => void,
-    setCategories: (categories: Category[]) => void
-) => {
+export const fetchData = async (setProducts, setCategories) => {
     try {
         const token = localStorage.getItem("adminToken") || "";
 
@@ -39,9 +33,7 @@ export const fetchData = async (
     }
 };
 
-export const fetchProducts = async (
-    setProducts: (products: Product[]) => void
-) => {
+export const fetchProducts = async (setProducts) => {
     try {
         const token = localStorage.getItem("adminToken") || "";
 
@@ -65,7 +57,7 @@ export const fetchProducts = async (
     }
 };
 
-export async function newArrivals(): Promise<Product[]> {
+export async function newArrivals() {
     const response = await fetch(`${apiUrl}/admin/product/new-arrivals`);
 
     if (!response.ok) {
@@ -78,17 +70,17 @@ export async function newArrivals(): Promise<Product[]> {
     console.log("API response:", json);
 
     if (json.data && Array.isArray(json.data)) {
-        return json.data as Product[];
+        return json.data;
     }
 
     if (Array.isArray(json)) {
-        return json as Product[];
+        return json;
     }
 
     throw new Error("Unexpected response format from new-arrivals API");
 }
 
-export async function getProductDetails(productId: string): Promise<Product> {
+export async function getProductDetails(productId) {
     console.log("Fetching product details for ID:", productId);
 
     const response = await fetch(`${apiUrl}/api/product/${productId}`);
@@ -103,15 +95,13 @@ export async function getProductDetails(productId: string): Promise<Product> {
     console.log("API response:", json);
 
     if (json.data) {
-        return json.data as Product;
+        return json.data;
     }
 
     throw new Error("Unexpected response format from product details API");
 }
 
-export async function getProductsByCategory(
-    categoryId: string
-): Promise<Product[]> {
+export async function getProductsByCategory(categoryId) {
     const response = await fetch(
         `${apiUrl}/admin/product/category/${categoryId}`
     );
@@ -133,7 +123,7 @@ export async function getProductsByCategory(
     }
 
     if (json.data) {
-        return json.data as Product[];
+        return json.data;
     }
 
     throw new Error("Unexpected response format from products by category API");

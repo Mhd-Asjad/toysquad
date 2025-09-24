@@ -2,7 +2,7 @@
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-export const fetchCategories = async (token: string) => {
+export const fetchCategories = async (token) => {
   try {
     const res = await fetch(`${apiUrl}/api/category`, {
       method: "POST",
