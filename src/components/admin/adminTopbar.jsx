@@ -37,7 +37,7 @@ export default function AdminTopbar({ handleDrawerToggle }) {
                     component="div"
                     sx={{ flexGrow: 1 }}
                 >
-                    Flash Car
+                    Toysquad
                 </Typography>
             </Toolbar>
         </AppBar>

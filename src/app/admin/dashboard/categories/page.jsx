@@ -82,13 +82,13 @@ const CategoriesPage = () => {
 
     const addCategory = async (data) => {
         try {
-            const res = await fetch(`${apiUrl}/api/category/add`, {
+            const res = await fetch(`/api/categories`, {
                 method: "POST",
                 headers,
                 body: JSON.stringify(data),
             });
             const result = await handleResponse(res);
-            setCategories([...categories, result.data]);
+            setCategories([...categories, result]);
             handleCloseModal();
         } catch (error) {
             console.error("Add Category Error:", error);
@@ -97,7 +97,7 @@ const CategoriesPage = () => {
 
     const updateCategory = async (id, data) => {
         try {
-            const res = await fetch(`${apiUrl}/api/category/${id}`, {
+            const res = await fetch(`/api/categories/${id}`, {
                 method: "PUT",
                 headers,
                 body: JSON.stringify(data),
@@ -113,7 +113,7 @@ const CategoriesPage = () => {
     };
 
     const toggleCategoryBlock = async (id) => {
-        const res = await fetch(`${apiUrl}/api/category/block/${id}`, {
+        const res = await fetch(`/api/categories/block/${id}`, {
             method: "PATCH",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -130,7 +130,7 @@ const CategoriesPage = () => {
 
     const deleteCategory = async (id) => {
         try {
-            const res = await fetch(`${apiUrl}/api/category/${id}`, {
+            const res = await fetch(`/api/categories/${id}`, {
                 method: "DELETE",
                 headers: { Authorization: headers.Authorization },
             });

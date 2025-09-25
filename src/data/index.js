@@ -5,19 +5,10 @@ import {
     Sparkles,
     Heart,
     Gift,
-    Mail,
-    Phone,
-    MapPin,
     Facebook,
     Twitter,
     Instagram,
     Youtube,
-    Send,
-    ArrowUp,
-    Shield,
-    Truck,
-    RefreshCw,
-    CreditCard,
 } from "lucide-react";
 
 export const slides = [
