@@ -68,8 +68,12 @@ export default function ProductsPage() {
             const formData = new FormData();
 
             formData.append("name", data.name);
-            formData.append("description", data.description);
+            formData.append("description", data.description || "");
             formData.append("category", data.category);
+            formData.append("price", data.price || 0);
+            formData.append("originalPrice", data.originalPrice || 0);
+            formData.append("discount", data.discount || 0);
+            formData.append("inStock", data.inStock ?? true); // default true
 
             if (data.image instanceof File) {
                 formData.append("image", data.image);
@@ -77,10 +81,11 @@ export default function ProductsPage() {
                 formData.append("image", data.image);
             }
 
-            const res = await fetch(`${apiUrl}/api/product/add`, {
+            const res = await fetch(`/api/products`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    // ❌ don’t set Content-Type manually, browser will handle it
                 },
                 body: formData,
             });
@@ -91,11 +96,11 @@ export default function ProductsPage() {
             }
 
             const newProduct = await res.json();
-            setProducts([...products, newProduct.data]);
+            setProducts([...products, newProduct]); // backend wraps in data
             toast.success("Product added successfully");
             setModalOpen(false);
         } catch (error) {
-            console.log(error)
+            console.log(error);
             toast.error("Error adding product");
         }
     };
@@ -106,16 +111,20 @@ export default function ProductsPage() {
             const formData = new FormData();
 
             formData.append("name", data.name);
-            formData.append("description", data.description);
+            formData.append("description", data.description || "");
             formData.append("category", data.category);
+            formData.append("price", data.price || 0);
+            formData.append("originalPrice", data.originalPrice || 0);
+            formData.append("discount", data.discount || 0);
+            formData.append("inStock", data.inStock ?? true);
 
             if (data.image instanceof File) {
                 formData.append("image", data.image);
-            } else if (typeof data.image === "string") {
+            } else if (typeof data.image === "string" && data.image) {
                 formData.append("image", data.image);
             }
 
-            const res = await fetch(`${apiUrl}/api/product/${id}`, {
+            const res = await fetch(`/api/products/${id}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -125,29 +134,25 @@ export default function ProductsPage() {
 
             if (!res.ok) {
                 const errorData = await res.json();
-                throw new Error(
-                    errorData.message || "Failed to update product"
-                );
+                throw new Error(errorData.message || "Failed to update product");
             }
 
             const updatedProduct = await res.json();
-            console.log("Updated product:", updatedProduct.data);
-            setProducts(
-                products.map((p) => (p._id === id ? updatedProduct.data : p))
-            );
+            setProducts(products.map((p) => (p._id === id ? updatedProduct : p)));
             toast.success("Product updated successfully");
             setEditProduct(null);
             setModalOpen(false);
         } catch (error) {
-            console.log(error)
+            console.log(error);
             toast.error("Error updating product");
         }
     };
 
+
     const toggleProductBlock = async (id, isBlocked) => {
         try {
             const token = localStorage.getItem("adminToken") || "";
-            const res = await fetch(`${apiUrl}/api/product/${id}`, {
+            const res = await fetch(`/api/products/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -180,7 +185,7 @@ export default function ProductsPage() {
     const deleteProduct = async (id) => {
         try {
             const token = localStorage.getItem("adminToken") || "";
-            const res = await fetch(`${apiUrl}/api/product/${id}`, {
+            const res = await fetch(`/api/products/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -258,12 +263,7 @@ export default function ProductsPage() {
                         filteredProducts.map((product) => (
                             <Grid size={{ xs: 12 }} key={product._id}>
                                 <Card>
-                                    <CardContent
-                                        sx={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                        }}
-                                    >
+                                    <CardContent sx={{ display: "flex", alignItems: "center" }}>
                                         <Image
                                             src={product.image}
                                             alt={product.name}
@@ -278,32 +278,30 @@ export default function ProductsPage() {
                                             }}
                                         />
                                         <div style={{ flexGrow: 1 }}>
-                                            <Typography variant="subtitle1">
-                                                {product.name}
+                                            <Typography variant="subtitle1">{product.name}</Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                {product.category?.name || "N/A"}
                                             </Typography>
-                                            <Typography
-                                                variant="body2"
-                                                color="text.secondary"
-                                            >
-                                                {product.category?.name ||
-                                                    "N/A"}
+                                            <Typography variant="body2">Original: ₹{product.originalPrice}</Typography>
+                                            {product.price && (
+                                                <Typography variant="body2">Now: ₹{product.price}</Typography>
+                                            )}
+                                            {product.discount && (
+                                                <Typography variant="body2" color="success.main">
+                                                    Discount: {product.discount}%
+                                                </Typography>
+                                            )}
+                                            <Typography variant="caption" color="text.secondary">
+                                                In Stock: {product.inStock ? "Yes" : "No"}
                                             </Typography>
-                                            <Typography
-                                                variant="caption"
-                                                color="text.secondary"
-                                            >
-                                                {product.isBlocked
-                                                    ? "Blocked"
-                                                    : "Active"}
+                                            <Typography variant="caption" color="text.secondary" display="block">
+                                                {product.isBlocked ? "Blocked" : "Active"}
                                             </Typography>
                                         </div>
                                         <Switch
                                             checked={product.isBlocked}
                                             onChange={() =>
-                                                toggleProductBlock(
-                                                    product._id,
-                                                    product.isBlocked
-                                                )
+                                                toggleProductBlock(product._id, product.isBlocked)
                                             }
                                         />
                                     </CardContent>
@@ -346,7 +344,12 @@ export default function ProductsPage() {
                                 <TableCell>Name</TableCell>
                                 <TableCell>Description</TableCell>
                                 <TableCell>Category</TableCell>
-                                <TableCell>Status</TableCell>
+                                <TableCell>Original Price</TableCell>
+                                <TableCell>Price</TableCell>
+                                <TableCell>Discount</TableCell>
+                                <TableCell>In Stock</TableCell>
+                                <TableCell>Block</TableCell>
+                                <TableCell>Created At</TableCell>
                                 <TableCell>Actions</TableCell>
                             </TableRow>
                         </TableHead>
@@ -356,52 +359,46 @@ export default function ProductsPage() {
                                     <TableRow key={product._id}>
                                         <TableCell>
                                             <Image
-                                                src={
-                                                    product.image ||
-                                                    "https://via.placeholder.com/50"
-                                                }
+                                                src={product.image || "https://via.placeholder.com/50"}
                                                 alt={product.name}
                                                 width={50}
                                                 height={50}
-                                                style={{
-                                                    objectFit: "cover",
-                                                    borderRadius: 4,
-                                                }}
+                                                style={{ objectFit: "cover", borderRadius: 4 }}
                                             />
                                         </TableCell>
                                         <TableCell>{product.name}</TableCell>
+                                        <TableCell>{product.description}</TableCell>
+                                        <TableCell>{product.category?.name || "N/A"}</TableCell>
+                                        <TableCell>₹{product.originalPrice}</TableCell>
                                         <TableCell>
-                                            {product.description}
+                                            {product.price ? `₹${product.price}` : "-"}
                                         </TableCell>
                                         <TableCell>
-                                            {product.category?.name || "N/A"}
+                                            {product.discount ? `${product.discount}%` : "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            {product.inStock ? "Yes" : "No"}
                                         </TableCell>
                                         <TableCell>
                                             <Switch
                                                 checked={product.isBlocked}
                                                 onChange={() =>
-                                                    toggleProductBlock(
-                                                        product._id,
-                                                        product.isBlocked
-                                                    )
+                                                    toggleProductBlock(product._id, product.isBlocked)
                                                 }
                                             />
                                         </TableCell>
                                         <TableCell>
+                                            {new Date(product.createdAt).toLocaleDateString()}
+                                        </TableCell>
+                                        <TableCell>
                                             <IconButton
-                                                onClick={() =>
-                                                    handleOpenModalForEdit(
-                                                        product
-                                                    )
-                                                }
+                                                onClick={() => handleOpenModalForEdit(product)}
                                                 color="primary"
                                             >
                                                 <AiOutlineEdit />
                                             </IconButton>
                                             <IconButton
-                                                onClick={() =>
-                                                    deleteProduct(product._id)
-                                                }
+                                                onClick={() => deleteProduct(product._id)}
                                                 color="error"
                                             >
                                                 <AiOutlineDelete />
@@ -411,7 +408,7 @@ export default function ProductsPage() {
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={3}>
+                                    <TableCell colSpan={10}>
                                         <p>No products found</p>
                                     </TableCell>
                                 </TableRow>
@@ -419,6 +416,7 @@ export default function ProductsPage() {
                         </TableBody>
                     </Table>
                 </Paper>
+
             )}
 
             <Dialog

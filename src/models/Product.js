@@ -1,4 +1,4 @@
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
 
 const ProductSchema = new mongoose.Schema(
     {
@@ -8,10 +8,11 @@ const ProductSchema = new mongoose.Schema(
         originalPrice: { type: Number, required: true },
         discount: { type: Number },
         image: { type: String, default: "image.png" },
-        features: [{ type: String }],
         inStock: { type: Boolean, default: true },
-        category: {type: mongoose.Schema.ObjectId, ref:"Category"}
+        category: { type: mongoose.Schema.ObjectId, ref: "Category" },
+        isBlocked: { type: Boolean, default: false },
     },
-    {timestamps:true}
-)
-export default mongoose.models.Product || mongoose.model("Product", ProductSchema);
+    { timestamps: true }
+);
+export default mongoose.models.Product ||
+    mongoose.model("Product", ProductSchema);
