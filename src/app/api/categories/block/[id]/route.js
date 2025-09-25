@@ -4,12 +4,12 @@ import clientPromise from "@/libs/mongodb";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 
-export async function PATCH(_, context) {
+export async function PATCH(_, { params }) {
     try {
         const client = await clientPromise;
         const db = client.db("toysquad");
 
-        const { id } = context.params;
+        const { id } = await params;
 
         // Find the category
         const category = await db.collection("categories").findOne({

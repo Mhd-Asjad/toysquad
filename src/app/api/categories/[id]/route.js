@@ -2,12 +2,12 @@ import clientPromise from "@/libs/mongodb";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 
-export async function PUT(req, context) {
+export async function PUT(req, { params }) {
     const client = await clientPromise;
     const db = client.db("toysquad");
 
     const body = await req.json();
-    const { id } = context.params;
+    const { id } = await params;
 
     if (!body.name || typeof body.name !== "string") {
         return NextResponse.json(
@@ -30,15 +30,14 @@ export async function PUT(req, context) {
             { status: 404 }
         );
     }
-
-    return NextResponse.json({ data: updated });
+    return NextResponse.json(updated, { status: 200 });
 }
 
-export async function DELETE(_, context) {
+export async function DELETE(_, { params }) {
     const client = await clientPromise;
     const db = client.db("toysquad");
 
-    const { id } = context.params;
+    const { id } = await params;
 
     const deleted = await db.collection("categories").deleteOne({
         _id: new ObjectId(id),

@@ -8,7 +8,7 @@ import cloudinary from "@/libs/cloudinary";
 export async function GET(_, { params }) {
     await connectDB();
     try {
-        const product = await Product.findById(params.id);
+        const product = await Product.findById((await params).id);
         if (product) {
             return NextResponse.json(product, { status: 200 });
         }
@@ -109,19 +109,18 @@ export async function PUT(req, { params }) {
             );
         }
 
-        const updatedProduct = updateResult;
-
         return NextResponse.json({
-            _id: updatedProduct._id,
-            name: updatedProduct.name,
-            description: updatedProduct.description,
+            _id: updateResult._id,
+            name: updateResult.name,
+            description: updateResult.description,
             category: { _id: categoryDoc._id, name: categoryDoc.name },
-            originalPrice: updatedProduct.originalPrice,
-            price: updatedProduct.price,
-            discount: updatedProduct.discount,
-            inStock: updatedProduct.inStock,
-            image: updatedProduct.image,
-            isBlocked: updatedProduct.isBlocked,
+            originalPrice: updateResult.originalPrice,
+            price: updateResult.price,
+            discount: updateResult.discount,
+            inStock: updateResult.inStock,
+            image: updateResult.image,
+            isBlocked: updateResult.isBlocked,
+            createdAt: updateResult.createdAt
         });
     } catch (error) {
         console.error("Update product error:", error);
@@ -179,6 +178,6 @@ export async function PATCH(req, { params }) {
 
 export async function DELETE(_, { params }) {
     await connectDB();
-    await Product.findByIdAndDelete(params.id);
+    await Product.findByIdAndDelete((await params).id);
     return NextResponse.json({ message: "Product deleted" }, { status: 200 });
 }

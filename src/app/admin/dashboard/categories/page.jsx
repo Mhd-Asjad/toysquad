@@ -82,7 +82,7 @@ const CategoriesPage = () => {
 
     const addCategory = async (data) => {
         try {
-            const res = await fetch(`/api/categories`, {
+            const res = await fetch(`/api/categories/add`, {
                 method: "POST",
                 headers,
                 body: JSON.stringify(data),
@@ -104,7 +104,7 @@ const CategoriesPage = () => {
             });
             const result = await handleResponse(res);
             setCategories(
-                categories.map((c) => (c._id === id ? result.data : c))
+                categories.map((c) => (c._id === id ? result : c))
             );
             handleCloseModal();
         } catch (error) {
@@ -202,7 +202,7 @@ const CategoriesPage = () => {
                         onSubmit={
                             editCategory
                                 ? (data) =>
-                                      updateCategory(editCategory._id, data)
+                                    updateCategory(editCategory._id, data)
                                 : addCategory
                         }
                         initialData={editCategory || undefined}
@@ -214,8 +214,8 @@ const CategoriesPage = () => {
                 isMobile ? (
                     // Mobile view: Cards
                     <Box display="flex" flexDirection="column" gap={2}>
-                        {categories.map((category) => (
-                            <Card key={category._id} variant="outlined">
+                        {categories.map((category, i) => (
+                            <Card key={i} variant="outlined">
                                 <CardContent>
                                     <Typography variant="h6">
                                         {category.name}
@@ -278,8 +278,8 @@ const CategoriesPage = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {categories.map((category) => (
-                                <TableRow key={category._id}>
+                            {categories.map((category, i) => (
+                                <TableRow key={i}>
                                     <TableCell>{category.name}</TableCell>
                                     <TableCell>
                                         <Box display="flex" alignItems="center">

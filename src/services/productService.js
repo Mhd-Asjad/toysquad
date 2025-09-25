@@ -1,4 +1,3 @@
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const fetchData = async (setProducts, setCategories) => {
     try {
@@ -21,9 +20,9 @@ export const fetchData = async (setProducts, setCategories) => {
 
         const productsData = await productsResponse.json();
         const categoriesData = await categoriesResponse.json();
-        console.log("in service");
-        console.log("Products:", productsData);
-        console.log("Categories:", categoriesData);
+        // console.log("in service");
+        // console.log("Products:", productsData);
+        // console.log("Categories:", categoriesData);
 
         setProducts(productsData);
         setCategories(categoriesData);

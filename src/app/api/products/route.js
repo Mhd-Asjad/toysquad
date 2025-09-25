@@ -136,6 +136,7 @@ export async function POST(req) {
             discount: discount ? Number(discount) : null,
             inStock,
             isBlocked: false,
+            createdAt: new Date(),
         });
     } catch (error) {
         console.error("Add product error:", error);
