@@ -5,11 +5,11 @@ export const fetchData = async (setProducts, setCategories) => {
         const token = localStorage.getItem("adminToken") || "";
 
         const [productsResponse, categoriesResponse] = await Promise.all([
-            fetch(`${apiUrl}/api/product`, {
-                method: "POST",
+            fetch(`/api/products`, {
+                method: "GET",
                 headers: { Authorization: `Bearer ${token}` },
             }),
-            fetch(`${apiUrl}/api/category`, {
+            fetch(`/api/categories`, {
                 method: "GET",
                 headers: { Authorization: `Bearer ${token}` },
             }),
@@ -37,7 +37,7 @@ export const fetchProducts = async (setProducts) => {
     try {
         const token = localStorage.getItem("adminToken") || "";
 
-        const productsResponse = await fetch(`${apiUrl}/api/product`, {
+        const productsResponse = await fetch(`/api/products`, {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },
         });
@@ -58,7 +58,7 @@ export const fetchProducts = async (setProducts) => {
 };
 
 export async function newArrivals() {
-    const response = await fetch(`${apiUrl}/admin/product/new-arrivals`);
+    const response = await fetch(`/admin/product/new-arrivals`);
 
     if (!response.ok) {
         throw new Error(
@@ -83,7 +83,7 @@ export async function newArrivals() {
 export async function getProductDetails(productId) {
     console.log("Fetching product details for ID:", productId);
 
-    const response = await fetch(`${apiUrl}/api/product/${productId}`);
+    const response = await fetch(`/api/products/${productId}`);
 
     if (!response.ok) {
         throw new Error(
@@ -103,7 +103,7 @@ export async function getProductDetails(productId) {
 
 export async function getProductsByCategory(categoryId) {
     const response = await fetch(
-        `${apiUrl}/admin/product/category/${categoryId}`
+        `/admin/product/category/${categoryId}`
     );
 
     if (!response.ok) {

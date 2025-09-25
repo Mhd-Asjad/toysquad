@@ -43,7 +43,7 @@ const CategoriesPage = () => {
 
     const fetchData = async () => {
         const token = localStorage.getItem("adminToken") || "";
-        const res = await fetch(`${apiUrl}/api/category`, {
+        const res = await fetch(`/api/categories`, {
             method: "GET", // use GET since backend expects GET
             headers: { Authorization: `Bearer ${token}` },
         });

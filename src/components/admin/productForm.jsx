@@ -24,7 +24,7 @@ export default function ProductForm({
     );
     const [category, setCategory] = useState(initialData.category?._id || "");
     const [imagePreview, setImagePreview] = useState(initialData.image || "");
-    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imageFile, setImageFile] = useState(null);
 
     const handleImageChange = (e) => {
         const file = e.target.files?.[0];
