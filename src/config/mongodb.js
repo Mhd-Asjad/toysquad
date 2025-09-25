@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/toysquad"
+const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI || "mongodb://localhost:27017/toysquad"
 console.log(MONGODB_URI, 'this is mongosh url')
 if (!MONGODB_URI) {
     throw new Error("please add the mongodb URI to .env.local")

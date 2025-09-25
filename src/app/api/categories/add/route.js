@@ -32,12 +32,9 @@ export async function POST(req) {
         });
 
         return NextResponse.json({
-            success: true,
-            data: {
-                _id: result.insertedId,
-                name,
-            },
-        });
+            _id: result.insertedId,
+            name,
+        }, {status: 200});
     } catch (error) {
         console.error("Add Category Error:", error);
         return NextResponse.json(
