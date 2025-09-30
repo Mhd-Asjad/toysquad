@@ -23,6 +23,7 @@ const HeroSection = () => {
   }, [isPlaying]);
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+
   const prevSlide = () =>
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   const goToSlide = (index) => setCurrentSlide(index);
@@ -49,10 +50,10 @@ const HeroSection = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.8 }}
+
                     className="text-4xl lg:text-6xl font-extrabold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
                     {currentSlideData.title}
                   </motion.h1>
-
                   <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -84,10 +85,12 @@ const HeroSection = () => {
                       key={feature}
                       initial={{ opacity: 0, scale: 0 }}
                       animate={{ opacity: 1, scale: 1 }}
+
                       transition={{
                         delay: 0.7 + index * 0.1,
                         type: "spring",
                       }}
+
                       className="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium text-[#2a2f6d] shadow"
                     >
                       ✨ {feature}
@@ -204,6 +207,7 @@ const HeroSection = () => {
         key={currentSlide}
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
+
         transition={{ duration: 10, ease: "linear" }}
         className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 origin-left"
         style={{ width: "100%" }}
