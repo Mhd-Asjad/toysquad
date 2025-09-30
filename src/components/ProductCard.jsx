@@ -51,10 +51,10 @@ const ProductCard = ({
                 } rounded-xl overflow-hidden bg-gradient-to-br from-blue-100 to-pink-100`}
               >
                 <Image
-                  src={`/${product.image}` || "/logo.png"}
+                  src={`${product.image}` || "/logo.png"}
                   alt={product.name}
                   fill
-                  className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 />
 
                 {/* Gradient Glow on Hover */}

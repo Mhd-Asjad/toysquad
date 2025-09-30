@@ -1,25 +1,20 @@
+import clientPromise from "@/libs/mongodb";
 import { NextResponse } from "next/server";
-import Category from "@/app/models/Category";
-import { connectDB } from "@/app/config/mongodb";
 
-export async function GET(){
-    await connectDB()
-    const categories = await Category.find({});
-    return NextResponse.json(categories,{status:200})
-}
-
-export async function POST(req){
+export async function GET() {
     try {
+        const client = await clientPromise;
+        const db = client.db("toysquad");
 
-        await connectDB();
-        const body = await req.json();
-        console.log('this is the request :',body)
-        const category = await Category.create(body)
-        return NextResponse.json(category,{status:201})
+        // Fetch all categories
+        const categories = await db.collection("categories").find({}).toArray();
 
-    }catch(err){
-
-        console.error(err)
-        return NextResponse.json({ error: err.message }, { status: 500 });
+        return NextResponse.json(categories);
+    } catch (error) {
+        console.error("Error fetching categories:", error);
+        return NextResponse.json(
+            { error: "Failed to fetch categories" },
+            { status: 500 }
+        );
     }
 }
