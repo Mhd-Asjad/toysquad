@@ -28,7 +28,7 @@ export default function ContactForm() {
 
     if (!formData.firstName || !formData.lastName || !formData.phone || !formData.message) {
       toast.warning('Please fill in all fields.', {
-        icon: <ShieldAlert className='' />,
+        icon: <ShieldAlert />,
         duration: 4000,
         style: { borderRadius: '8px', background: '#333', color: '#fff' }
       });
