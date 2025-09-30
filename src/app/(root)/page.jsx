@@ -6,7 +6,8 @@ const Page = () => {
   return (
     <div>
       <div className=''>
-        <ProductSlider />
+        {/* <ProductSlider /> */}
+        <HeroSection />
       </div>
       <div>
         <ProductsPage />

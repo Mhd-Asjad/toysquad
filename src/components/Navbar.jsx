@@ -69,7 +69,7 @@ const Navbar = () => {
                   transition={{ delay: index * 0.1 + 0.2 }}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`relative px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-500/60  transition-all duration-200 ${scrolled ? "text-slate-600" : "text-white"}`}
+                  className={`relative px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-500/60  transition-all duration-200 text-gray-700 hover:text-white`}
                 >
                   {item.name}
                   <motion.div
