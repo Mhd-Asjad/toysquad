@@ -9,13 +9,13 @@ import Image from "next/image";
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const intervalRef = useRef(null);
+  const intervalRef = useRef(null)
 
   useEffect(() => {
     if (isPlaying) {
       intervalRef.current = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % slides.length);
-      }, 5000);
+      }, 10000);
     }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
@@ -23,7 +23,9 @@ const HeroSection = () => {
   }, [isPlaying]);
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+  const prevSlide = () =>
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   const goToSlide = (index) => setCurrentSlide(index);
 
   const currentSlideData = slides[currentSlide];
@@ -48,8 +50,8 @@ const HeroSection = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.8 }}
-                    className="text-4xl lg:text-6xl font-extrabold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent"
-                  >
+
+                    className="text-4xl lg:text-6xl font-extrabold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
                     {currentSlideData.title}
                   </motion.h1>
                   <motion.h2
@@ -83,7 +85,12 @@ const HeroSection = () => {
                       key={feature}
                       initial={{ opacity: 0, scale: 0 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.7 + index * 0.1, type: "spring" }}
+
+                      transition={{
+                        delay: 0.7 + index * 0.1,
+                        type: "spring",
+                      }}
+
                       className="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium text-[#2a2f6d] shadow"
                     >
                       ✨ {feature}
@@ -129,7 +136,11 @@ const HeroSection = () => {
                   {/* Spinning Background */}
                   <motion.div
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 20,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
                     className="w-80 h-80 lg:w-96 lg:h-96 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-2xl relative"
                   ></motion.div>
 
@@ -196,7 +207,8 @@ const HeroSection = () => {
         key={currentSlide}
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
-        transition={{ duration: 5, ease: "linear" }}
+
+        transition={{ duration: 10, ease: "linear" }}
         className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 origin-left"
         style={{ width: "100%" }}
       />

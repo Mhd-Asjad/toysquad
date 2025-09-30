@@ -27,5 +27,5 @@ body {
 
 
 .bg-hero-gradient {
-  background: linear-gradient(to bottom, #5667ab, #f9f7fe, #ebf1f6);
+  background: linear-gradient(to bottom, #f9f7fe, #ebf1f6, #5667ab);
 }
