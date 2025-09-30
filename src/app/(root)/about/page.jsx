@@ -157,10 +157,13 @@ function AboutPage() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8, duration: 1.0 }}
         >
-        <p className={`text-center text-gray-700 text-lg sm:text-xl lg:text-2xl font-semibold leading-relaxed ${montserrat.className}`}> 
-            " At ToySquad, we're not just selling toys – we're shaping smiles, nurturing imagination, 
-            and creating joyful moments that last a lifetime. " 💫
+        <p
+          className={`text-center text-gray-700 text-lg sm:text-xl lg:text-2xl font-semibold leading-relaxed ${montserrat.className}`}
+        >
+          &quot; At ToySquad, we&apos;re not just selling toys – we&apos;re shaping smiles,
+          nurturing imagination, and creating joyful moments that last a lifetime. &quot; 💫
         </p>
+
     </motion.div>   
 
 
