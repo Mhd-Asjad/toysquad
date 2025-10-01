@@ -165,8 +165,6 @@ function AboutPage() {
         </p>
 
     </motion.div>   
-
-
     </div>
   );
 }

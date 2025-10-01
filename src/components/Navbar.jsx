@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, User } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
 
 const Navbar = () => {
@@ -90,7 +90,7 @@ const Navbar = () => {
               onClick={toggleMenu}
               className="lg:hidden p-2 rounded-full bg-white/20 text-white transition-all duration-200"
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isOpen ? <X className="color-gray-500 w-6 h-6" /> : <Menu className="text-gray-500 w-6 h-6" />}
             </motion.button>
           </div>
         </div>
