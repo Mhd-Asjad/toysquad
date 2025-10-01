@@ -31,7 +31,7 @@ const HeroSection = () => {
   const currentSlideData = slides[currentSlide];
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-hero-gradient pt-20 lg:pt-28 text-[#2a2f6d]">
+    <section className="relative min-h-screen overflow-hidden bg-hero-gradient pt-20 sm:p-10 lg:pt-28 text-[#2a2f6d]">
       <div className="relative z-10 min-h-[calc(100vh-5rem)] lg:min-h-[calc(100vh-7rem)] flex items-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <AnimatePresence mode="wait">
@@ -44,7 +44,7 @@ const HeroSection = () => {
               className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]"
             >
               {/* Left Content */}
-              <div className="space-y-8 text-center lg:text-left">
+              <div className="space-y-8 text-center lg:text-left p-4 sm:p-0">
                 <div className="space-y-4">
                   <motion.h1
                     initial={{ opacity: 0, y: 30 }}
@@ -164,7 +164,7 @@ const HeroSection = () => {
       </div>
 
       {/* Controls */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2  sm:mt-10 z-20">
         <div className="flex items-center space-x-6">
           <motion.button
             whileHover={{ scale: 1.1 }}

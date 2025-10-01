@@ -13,7 +13,7 @@ export default function ContactForm() {
     agreeToPrivacy: false
   });
 
-  const whatsappNumber = '9744275160'; 
+  const whatsappNumber = '6282022424'; 
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

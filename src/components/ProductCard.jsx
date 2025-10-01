@@ -14,6 +14,7 @@ const ProductCard = ({
   selectedCategory,
   selectedPriceRange,
 }) => {
+  console.log("Rendering ProductCard with products:", filteredProducts);
   
   return (
     <div>
@@ -51,7 +52,7 @@ const ProductCard = ({
                 } rounded-xl overflow-hidden bg-gradient-to-br from-blue-100 to-pink-100`}
               >
                 <Image
-                  src={`${product.image}` || "/logo.png"}
+                  src={`/${product.image}` || "/logo.png"}
                   alt={product.name}
                   fill
                   className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
